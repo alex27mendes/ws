@@ -1,0 +1,4 @@
+com\algaworks\contatos\model\Contato.class
+com\algaworks\contatos\VideoaulaContatosApplication.class
+com\algaworks\contatos\repository\Contatos.class
+com\algaworks\contatos\resource\ContatosResource.class
