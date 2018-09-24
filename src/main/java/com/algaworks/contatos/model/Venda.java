@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 @Entity
 public class Venda extends Persistivel {
@@ -44,5 +46,15 @@ public class Venda extends Persistivel {
 	public void setItens(Set<ItensVenda> itens) {
 		this.itens = itens;
 	}
+	@PreUpdate
+    public void preUpdate() {
+        data = new Date();
+    }
+     
+    @PrePersist
+    public void prePersist() {
+        final Date atual = new Date();
+        data = atual;
+    }
     
 }
