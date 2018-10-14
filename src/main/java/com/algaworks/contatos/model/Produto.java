@@ -11,6 +11,7 @@ public class Produto extends Persistivel {
     private double preco;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
     private List<Compra> compras;
+    private String urlImage;
     
     public String getNome() {
         return nome;
@@ -26,6 +27,14 @@ public class Produto extends Persistivel {
 
 	public void setPreco(double preco) {
 		this.preco = preco;
+	}
+
+	public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 
 //	public List<Compra> getCompras() {

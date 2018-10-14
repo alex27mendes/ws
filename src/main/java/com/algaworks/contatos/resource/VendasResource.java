@@ -1,7 +1,11 @@
 package com.algaworks.contatos.resource;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,7 +62,11 @@ public class VendasResource {
 	private List<VendaDto> getVendasByVendedor(@PathVariable Long id) {
 		return convertVendaToDto(id);
 	}
-	
+	@GetMapping("{periodo}/{id}")
+	private List<VendaDto> getVendasByPeriodo(@PathVariable String periodo,@PathVariable int id) {
+		System.out.println("LOG.: " + periodo + " - " + id);
+		return convertVendaToDto(periodo, id);
+	}
 	
 	private Venda converterDtoParaVenda(List<ItensVendaDto> vendaDto) {
 		
@@ -103,6 +111,22 @@ public class VendasResource {
 	private List<VendaDto> convertVendaToDto(Long id){
 		Usuario usuario = UsuarioRepository.findOne(id);
 		List<Venda> vendas = vendaRepository.findByVendedor(usuario);
+		List<VendaDto> vendasDto =  new ArrayList<VendaDto>();
+		for (Venda venda : vendas) {
+			VendaDto vendaDto = new VendaDto();
+			vendaDto.setId(venda.getId());
+			vendaDto.setValorTotal(venda.getvalorTotal());
+			vendaDto.setVendedor(venda.getVendedor());
+			vendaDto.setData(venda.getData());
+			vendasDto.add(vendaDto);
+		}
+		return vendasDto;
+	}
+	private List<VendaDto> convertVendaToDto(String periodo, int id){
+	    int mes  = Integer.parseInt(periodo.substring(0, 2));
+		int ano  = Integer.parseInt(periodo.substring(2, 6));
+		Long id_vendedor = Long.valueOf(id);	
+		List<Venda> vendas = vendaRepository.findByPeriodo(id_vendedor, mes, ano);
 		List<VendaDto> vendasDto =  new ArrayList<VendaDto>();
 		for (Venda venda : vendas) {
 			VendaDto vendaDto = new VendaDto();

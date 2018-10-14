@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import com.algaworks.contatos.repository.LoginRespository;
 @RestController
 @RequestMapping("/login")
 public class LoginResource {
+	private static final Logger log = LoggerFactory.getLogger(LoginResource.class);
 	@Autowired
 	private LoginRespository loginRepository;
 	
@@ -43,6 +46,17 @@ public class LoginResource {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(login);
+	}
+	@GetMapping("{login}/{senha}")
+	public ResponseEntity<Login> getLogin(@PathVariable String login,@PathVariable String senha){
+		Login l = loginRepository.findByLogin(login, senha);
+		log.info("Empresa não encontrada para o CNPJ: Teste {}", l);
+		
+		if( l == null) {
+			log.info("Empresa não encontrada para o CNPJ: {}", login);
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(l);
 	}
 	
 	@PutMapping("/{id}")
