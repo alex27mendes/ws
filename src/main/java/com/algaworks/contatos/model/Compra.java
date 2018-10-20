@@ -1,9 +1,13 @@
 package com.algaworks.contatos.model;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -47,4 +51,14 @@ public class Compra extends Persistivel{
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
+	@PreUpdate
+    public void preUpdate() {
+        dataCriacao = new Date();
+    }
+     
+    @PrePersist
+    public void prePersist() {
+        final Date atual = new Date();
+        dataCriacao = atual;
+    }
 }
