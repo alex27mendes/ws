@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.contatos.model.Compra;
-import com.algaworks.contatos.model.Login;
-import com.algaworks.contatos.model.Produto;
 import com.algaworks.contatos.repository.CompraRepository;
 import com.algaworks.contatos.repository.ProdutosRepository;
 

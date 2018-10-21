@@ -21,6 +21,8 @@ public class Venda extends Persistivel {
 	private Set<ItensVenda> itens = new HashSet<ItensVenda>();
     @OneToOne(cascade=CascadeType.ALL)
     private Usuario vendedor;
+    @OneToOne
+    private Cliente cliente;
     
 	public Date getData() {
 		return data;
@@ -56,5 +58,10 @@ public class Venda extends Persistivel {
         final Date atual = new Date();
         data = atual;
     }
-    
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	} 
 }
