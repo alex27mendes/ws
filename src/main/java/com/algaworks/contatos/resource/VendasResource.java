@@ -36,6 +36,8 @@ import com.argaworks.contatos.dtos.ClienteVendaDto;
 import com.argaworks.contatos.dtos.ItensVendaDto;
 import com.argaworks.contatos.dtos.VendaDto;
 
+import comalgaworks.enums.StatusVenda;
+
 @RestController
 @RequestMapping("/vendas")
 public class VendasResource {
@@ -87,7 +89,22 @@ public class VendasResource {
 		System.out.println("LOG.: " + periodo + " - " + id);
 		return convertVendaToDto(periodo, id);
 	}
-	
+	@PostMapping("/confirmacao")
+	private ResponseEntity<String> confirmacao(@PathVariable boolean acao, @PathVariable Long id) {
+	    Venda venda  = vendaRepository.findOne(id);
+		if(venda == null) {
+			return ResponseEntity.notFound().build();
+		}
+	    if (acao) {
+	    	venda.setStatus(StatusVenda.CONCLUIDA);
+	    }else {
+	    	venda.setStatus(StatusVenda.CANCELADA);
+	    }
+	    if(vendaRepository.save(venda) ==  null) {
+	    	return ResponseEntity.notFound().build();
+	    }
+		return ResponseEntity.ok(venda.getId().toString());
+	}
 	private Venda converterDtoParaVenda(List<ItensVendaDto> vendaDto) {
 		
 		
@@ -111,6 +128,7 @@ public class VendasResource {
 		}
 		venda.setValorTotal(valorTotal);
 		venda.setItens(item);
+		venda.setStatus(StatusVenda.PENDENTE);
 		return venda;
 	}
 	private Venda converterDtoParaVenda(ClienteVendaDto pedido) {

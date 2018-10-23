@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import comalgaworks.enums.StatusVenda;
+
 @Entity
 public class Venda extends Persistivel {
 	
@@ -23,6 +25,7 @@ public class Venda extends Persistivel {
     private Usuario vendedor;
     @OneToOne
     private Cliente cliente;
+    private StatusVenda status;
     
 	public Date getData() {
 		return data;
@@ -63,5 +66,11 @@ public class Venda extends Persistivel {
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	} 
+	}
+	public StatusVenda getStatus() {
+		return status;
+	}
+	public void setStatus(StatusVenda status) {
+		this.status = status;
+	}
 }
