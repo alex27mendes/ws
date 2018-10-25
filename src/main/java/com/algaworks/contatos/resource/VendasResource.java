@@ -89,21 +89,27 @@ public class VendasResource {
 		System.out.println("LOG.: " + periodo + " - " + id);
 		return convertVendaToDto(periodo, id);
 	}
-	@PostMapping("/confirmacao")
-	private ResponseEntity<String> confirmacao(@PathVariable boolean acao, @PathVariable Long id) {
+	@GetMapping("/confirmacao/{status}/{id}")
+	private ResponseEntity<String> confirmacao(@PathVariable String status, @PathVariable Long id) {
 	    Venda venda  = vendaRepository.findOne(id);
 		if(venda == null) {
 			return ResponseEntity.notFound().build();
 		}
-	    if (acao) {
-	    	venda.setStatus(StatusVenda.CONCLUIDA);
-	    }else {
-	    	venda.setStatus(StatusVenda.CANCELADA);
-	    }
+		switch (status) {
+		case "CONCLUIDA":
+			venda.setStatus(StatusVenda.CONCLUIDA);
+			break;
+		case "CANCELADA":
+			venda.setStatus(StatusVenda.CANCELADA);
+			break;
+		default:
+			venda.setStatus(StatusVenda.PENDENTE);
+			break;
+		}
 	    if(vendaRepository.save(venda) ==  null) {
 	    	return ResponseEntity.notFound().build();
 	    }
-		return ResponseEntity.ok(venda.getId().toString());
+		return ResponseEntity.ok(status);
 	}
 	private Venda converterDtoParaVenda(List<ItensVendaDto> vendaDto) {
 		
