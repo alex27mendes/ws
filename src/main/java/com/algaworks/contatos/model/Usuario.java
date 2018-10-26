@@ -17,6 +17,7 @@ public class Usuario extends Persistivel{
 	 */
 	private String nome;
 	private TipoUsuario tipoUsuario;
+	private Boolean ativo;
 
     public String getNome() {
         return nome;
@@ -34,6 +35,15 @@ public class Usuario extends Persistivel{
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 
 	
 }
