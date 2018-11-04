@@ -35,6 +35,10 @@ public class ContatosResource {
 	public List<Contato> listar() {
 		return contatos.findAll();
 	}
+	@GetMapping("/teste")
+	public String teste() {
+		return "OK! Funcionado";
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Contato> buscar(@PathVariable Long id) {
