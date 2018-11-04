@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 @Entity
 public class Produto extends Persistivel {
     private String nome;
@@ -17,6 +18,9 @@ public class Produto extends Persistivel {
     private int estoqueMinimo;
     @Column(length=500)
     private String descricao;
+    @OneToOne(cascade=CascadeType.ALL)
+    private Categoria categoria;
+    private Boolean ativo;
     
     public String getNome() {
         return nome;
@@ -65,6 +69,26 @@ public class Produto extends Persistivel {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+	
+	
+
+	
 	
 	
 	

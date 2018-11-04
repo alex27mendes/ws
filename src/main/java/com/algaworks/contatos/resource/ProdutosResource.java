@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.contatos.model.Categoria;
 import com.algaworks.contatos.model.Produto;
+import com.algaworks.contatos.repository.CategoriaRepository;
 import com.algaworks.contatos.repository.ProdutosRepository;
 import com.argaworks.contatos.dtos.ProdutoDto;
 
@@ -26,9 +28,15 @@ public class ProdutosResource {
 	
 	@Autowired
 	private ProdutosRepository produtosRepository;
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 	
 	@PostMapping
 	public Produto adicionar(@Valid @RequestBody Produto produto) {
+		if (produto.getCategoria().getNome()!= null) {
+			Categoria categoria = categoriaRepository.findByNome(produto.getCategoria().getNome());
+			produto.setCategoria(categoria);
+		}
 		return produtosRepository.save(produto);
 	}
 	
