@@ -18,6 +18,7 @@ public class Usuario extends Persistivel{
 	private String nome;
 	private TipoUsuario tipoUsuario;
 	private Boolean ativo;
+	private String userIdNoticacao;
 
     public String getNome() {
         return nome;
@@ -43,7 +44,12 @@ public class Usuario extends Persistivel{
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-	
 
-	
+	public String getUserIdNoticacao() {
+		return userIdNoticacao;
+	}
+
+	public void setUserIdNoticacao(String userIdNoticacao) {
+		this.userIdNoticacao = userIdNoticacao;
+	}
 }

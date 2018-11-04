@@ -73,4 +73,9 @@ public class Venda extends Persistivel {
 	public void setStatus(StatusVenda status) {
 		this.status = status;
 	}
+	@Override
+	public String toString() {
+		return "Venda [data=" + data + ", valorTotal=" + valorTotal + ", itens=" + itens + ", vendedor=" + vendedor
+				+ ", cliente=" + cliente + ", status=" + status + "]";
+	}
 }
