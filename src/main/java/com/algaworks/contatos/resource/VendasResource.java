@@ -35,6 +35,7 @@ import com.algaworks.contatos.repository.VendaRepository;
 import com.argaworks.contatos.dtos.ClienteVendaDto;
 import com.argaworks.contatos.dtos.ItensVendaDto;
 import com.argaworks.contatos.dtos.VendaDto;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter.FixedSpaceIndenter;
 
 import comalgaworks.enums.StatusVenda;
 
@@ -106,6 +107,13 @@ public class VendasResource {
 			break;
 		case "CANCELADA":
 			venda.setStatus(StatusVenda.CANCELADA);
+			// Volta quantidade p estoque
+			for(ItensVenda i :venda.getItens()){
+				Produto produto = produtosRepository.findById(i.getProduto().getId());
+				int qtde = produto.getQuantidade() + i.getQuantidade();
+				produto.setQuantidade(qtde);
+				produtosRepository.save(produto);	
+			}
 			break;
 		default:
 			venda.setStatus(StatusVenda.PENDENTE);
@@ -134,6 +142,10 @@ public class VendasResource {
 			itensVenda.setQuantidade(v.getQuantidade());
 			Produto produto = new Produto();
 		    produto = produtosRepository.findOne(v.getIdProduto());
+		    int qtde = produto.getQuantidade() - v.getQuantidade();
+		    log.info("Quantidade do Produto" + qtde);
+		    produto.setQuantidade(qtde);;
+		    produtosRepository.save(produto);
 			itensVenda.setProduto(produto);
 			valorTotal +=  v.getValorProduto() * v.getQuantidade();			
 			item.add(itensVenda);
@@ -159,6 +171,10 @@ public class VendasResource {
 			itensVenda.setQuantidade(v.getQuantidade());
 			Produto produto = new Produto();
 		    produto = produtosRepository.findOne(v.getIdProduto());
+		    int qtde = produto.getQuantidade() - v.getQuantidade();
+		    log.info("Quantidade do Produto" + qtde);
+		    produto.setQuantidade(qtde);;
+		//    produtosRepository.save(produto);
 			itensVenda.setProduto(produto);
 			valorTotal +=  v.getValorProduto() * v.getQuantidade();			
 			item.add(itensVenda);
@@ -170,6 +186,7 @@ public class VendasResource {
 			Cliente cliente = clienteRepository.save(pedido.getCliente());		
 			venda.setCliente(cliente);
 		}
+		venda.setStatus(StatusVenda.PENDENTE);
 		return venda;
 	}
 	private List<ItensVendaDto> convertVendaToListDto(Long id){
