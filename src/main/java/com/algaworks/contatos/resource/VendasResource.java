@@ -94,6 +94,11 @@ public class VendasResource {
 	private List<VendaDto> getVendasByStatus(@PathVariable StatusVenda status,@PathVariable Long id) {
 		return convertVendaToDto(status, id);
 	}
+        @GetMapping("/detalhe/{id}")
+	private VendaDto getVendaById(@PathVariable Long id) {
+		return convertVendaToDtoDetail(id);
+	}
+        
 	@GetMapping("/confirmacao/{status}/{id}")
 	private VendaDto confirmacao(@PathVariable String status, @PathVariable Long id) {
 	    Venda venda  = vendaRepository.findOne(id);
@@ -262,6 +267,16 @@ public class VendasResource {
 		 vendaDto.setValorTotal(venda.getvalorTotal());
 		 vendaDto.setVendedor(venda.getVendedor());
 		 return vendaDto;
+	}
+        private VendaDto convertVendaToDtoDetail(Long id){
+		Venda venda = vendaRepository.findOne(id);
+                VendaDto vendaDto = new VendaDto();
+                vendaDto.setId(venda.getId());
+                vendaDto.setValorTotal(venda.getvalorTotal());
+                vendaDto.setVendedor(venda.getVendedor());
+                vendaDto.setData(venda.getData());
+                vendaDto.setCliente(venda.getCliente());
+		return vendaDto;
 	}
 
 }
